@@ -1,4 +1,6 @@
 #!/usr/bin/python
+
+import json
 import mysql.connector
 import os
 from webob import Response
@@ -9,17 +11,18 @@ HOST = os.environ['DB_HOST']
 DB   = os.environ['DB_DB']
 
 def attending_max(request):
-    first_name = request.urlvars['first_name']
-    last_name = request.urlvars['last_name']
+    invitee = json.loads(request.body)['invitee']
+
+    print "attending_max: {}".format(invitee)
 
     cnx = mysql.connector.connect(user=USER, password=PASS,
                                   host=HOST, database=DB)
 
     cursor = cnx.cursor()
-    query = 'SELECT AttendingMax from Guests WHERE FirstName=%s AND LastName=%s'
-    cursor.execute(query, (first_name, last_name))
+    query = 'SELECT AttendingMax from Guests WHERE Invitee=%s'
+    cursor.execute(query, (invitee,))
 
     max_num = cursor.fetchone()[0]
 
-    return Response("{}".format(max_num))
+    return Response(json.dumps({"attending_max": max_num}))
 
