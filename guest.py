@@ -14,7 +14,7 @@ def get_guest(request):
     invitee = request.urlvars['invitee']
 
     cnx = mysql.connector.connect(user=USER, password=PASS,
-								  host=HOST, database=DB)
+                                  host=HOST, database=DB)
 
     cursor = cnx.cursor()
     query = 'SELECT * from Guests WHERE Invitee=%s'
