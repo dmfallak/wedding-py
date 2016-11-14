@@ -8,7 +8,7 @@ PEM_FILE = os.environ['PEM_FILE']
 
 router = Router()
 
-router.add_route("/guest/attending_max", "guest:attending_max")
+router.add_route("/guest/{invitee}", "guest:get_guest")
 
 application = router.as_wsgi
 
