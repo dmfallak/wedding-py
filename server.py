@@ -4,7 +4,7 @@ from simplerouter import Router
 
 router = Router()
 
-router.add_route("/guest/{invitee}", "guest:get_guest")
+router.add_route("/api/guests/{invitee}", "guest:get_guest")
 
 application = router.as_wsgi
 

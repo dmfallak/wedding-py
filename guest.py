@@ -19,22 +19,41 @@ def get_guest(request):
     cursor = cnx.cursor()
     query = 'SELECT * from Guests WHERE Invitee=%s'
     cursor.execute(query, (invitee,))
-
     row = cursor.fetchone()
-    result = {'invitee': row[0],
-              'attendingMax': row[1],
-              'attendingNum': row[2],
-              'guestNames': row[3],
-              'entree1': row[4],
-              'entree2': row[5],
-              'hotel': row[6],
-              'shuttleToTime': row[7],
-              'shuttleFromTime': row[8],
-              'id': row[9],
-              'attending': row[10]}
+
+    if not row:
+      result = {"errors":[
+        {
+          "title":"Could not find guest for given invitee.",
+          "code":"API_ERR",
+          "status":"404"
+        }
+      ]}
+      status = 404
+    else:
+      result = {'data': {
+          'type': 'guests',
+          'id': row[9],
+          'attributes': {
+            'invitee': row[0],
+            'attendingMax': row[1],
+            'attendingNum': row[2],
+            'guestNames': row[3],
+            'entree1': row[4],
+            'entree2': row[5],
+            'hotel': row[6],
+            'shuttleToTime': row[7],
+            'shuttleFromTime': row[8],
+            'attending': row[10]
+          }
+        }
+      }
+      status = 200
 
 
     cursor.close();
     cnx.close();
 
-    return Response(json.dumps(result))
+    res = Response(json.dumps(result))
+    res.status = status
+    return res
