@@ -32,18 +32,18 @@ def get_guest(request):
       status = 404
     else:
       result = {'data': {
-          'type': 'guests',
-          'id': row[9],
+          'type': 'guest',
+          'id': row[0],
           'attributes': {
             'invitee': row[0],
-            'attendingMax': row[1],
-            'attendingNum': row[2],
-            'guestNames': row[3],
+            'attending-max': row[1],
+            'attending-num': row[2],
+            'guest-names': row[3],
             'entree1': row[4],
             'entree2': row[5],
             'hotel': row[6],
-            'shuttleToTime': row[7],
-            'shuttleFromTime': row[8],
+            'shuttle-to-time': row[7],
+            'shuttle-from-time': row[8],
             'attending': row[10]
           }
         }
